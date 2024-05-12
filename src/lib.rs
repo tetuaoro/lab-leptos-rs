@@ -1,5 +1,9 @@
+mod adapter;
+mod entity;
+mod component;
 pub mod app;
 pub mod error_template;
+
 #[cfg(feature = "ssr")]
 pub mod fileserv;
 
