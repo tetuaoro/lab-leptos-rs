@@ -1,5 +1,5 @@
-use crate::entity::Message;
 use crate::adapter::PrintMessage;
+use crate::entity::Message;
 use leptos::*;
 
 #[component]
@@ -7,13 +7,13 @@ pub fn HomeWrapper() -> impl IntoView {
     let test = Message::from(String::from("test browzer"));
 
     view! {
-        <HomePage message={&test} />
+        <HomePage message=test />
     }
 }
 
 /// Renders the home page of your application.
 #[component]
-fn HomePage(#[prop(optional)] message: &'static dyn PrintMessage) -> impl IntoView {
+fn HomePage(message: Message) -> impl IntoView {
     // Creates a reactive value to update the button
     let (count, set_count) = create_signal(0);
     let on_click = move |_| set_count.update(|count| *count += 1);
