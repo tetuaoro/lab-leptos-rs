@@ -14,3 +14,9 @@ impl PrintMessage for Message {
         self.0.clone()
     }
 }
+
+impl Message {
+    pub fn update(&mut self, value: impl Into<String>) {
+        self.0 = value.into()
+    }
+}
