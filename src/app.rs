@@ -1,5 +1,5 @@
 use crate::error_template::{AppError, ErrorTemplate};
-use crate::component::home::HomeWrapper;
+use crate::component::home::HomePage;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
@@ -30,7 +30,7 @@ pub fn App() -> impl IntoView {
         }>
             <main>
                 <Routes>
-                    <Route path="" view=HomeWrapper />
+                    <Route path="" view=HomePage />
                 </Routes>
             </main>
         </Router>

@@ -1,14 +1,17 @@
 use crate::adapter::PrintMessage;
+use crate::api::counter;
 use crate::entity::Message;
+
 use leptos::*;
 use std::time::Duration;
 
-static NAME: &str = "Tetuaoro";
+static TETUAORO: &str = "Tetuaoro";
+static HEREITI: &str = "Hereiti";
 
 /// Renders the home page of your application.
 #[component]
-pub fn HomeWrapper() -> impl IntoView {
-    let message = Message::from(String::from(NAME));
+pub fn HomePage() -> impl IntoView {
+    let message = Message::from(String::from(TETUAORO));
     let (rd, wd) = create_signal(message);
 
     create_effect(move |_| {
@@ -16,10 +19,10 @@ pub fn HomeWrapper() -> impl IntoView {
             move || {
                 wd.update(|d| {
                     let mes = d.get_message();
-                    if mes.eq(&String::from(NAME)) {
-                        d.update("Hereiti");
+                    if mes.eq(&String::from(TETUAORO)) {
+                        d.update(HEREITI);
                     } else {
-                        d.update(NAME);
+                        d.update(TETUAORO);
                     }
                 })
             },
@@ -28,12 +31,13 @@ pub fn HomeWrapper() -> impl IntoView {
     });
 
     view! {
-        <HomePage data=rd />
+        <Home data=rd/>
+        <CounterPage/>
     }
 }
 
 #[component]
-fn HomePage<P: PrintMessage + 'static>(data: ReadSignal<P>) -> impl IntoView {
+fn Home<P: PrintMessage + 'static>(data: ReadSignal<P>) -> impl IntoView {
     // Creates a reactive value to update the button
     let (count, set_count) = create_signal(0);
     let on_click = move |_| set_count.update(|count| *count += 1);
@@ -43,5 +47,27 @@ fn HomePage<P: PrintMessage + 'static>(data: ReadSignal<P>) -> impl IntoView {
     view! {
         <h1>"Welcome " {title_h1}</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
+    }
+}
+
+#[component]
+fn CounterPage() -> impl IntoView {
+    let (count, set_count) = create_signal(0);
+    let (message, set_message) = create_signal("My message 1");
+
+    let click_me_baby = move |_| {
+        spawn_local(async move {
+            if let Ok(c) = counter().await {
+                set_count.update(|sc| *sc = c);
+            }
+        });
+
+        set_message.update(|sm| *sm = "My 22 message");
+    };
+
+    view! {
+        <div>"Count signal : " {count}</div>
+        <div>"Message : " {message}</div>
+        <button on:click=click_me_baby>"Click me bb"</button>
     }
 }
