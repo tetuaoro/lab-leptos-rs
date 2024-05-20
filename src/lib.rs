@@ -1,5 +1,5 @@
-pub mod adapter;
-pub mod entity;
+mod adapter;
+mod entity;
 pub mod component;
 pub mod app;
 pub mod error_template;
