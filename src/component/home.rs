@@ -1,5 +1,4 @@
 use crate::adapter::PrintMessage;
-use crate::api::counter;
 use crate::entity::Message;
 
 use leptos::*;
@@ -30,10 +29,7 @@ pub fn HomePage() -> impl IntoView {
         );
     });
 
-    view! {
-        <Home data=rd/>
-        <CounterPage/>
-    }
+    view! { <Home data=rd/> }
 }
 
 #[component]
@@ -47,27 +43,5 @@ fn Home<P: PrintMessage + 'static>(data: ReadSignal<P>) -> impl IntoView {
     view! {
         <h1>"Welcome " {title_h1}</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
-    }
-}
-
-#[component]
-fn CounterPage() -> impl IntoView {
-    let (count, set_count) = create_signal(0);
-    let (message, set_message) = create_signal("My message 1");
-
-    let click_me_baby = move |_| {
-        spawn_local(async move {
-            if let Ok(c) = counter().await {
-                set_count.update(|sc| *sc = c);
-            }
-        });
-
-        set_message.update(|sm| *sm = "My 22 message");
-    };
-
-    view! {
-        <div>"Count signal : " {count}</div>
-        <div>"Message : " {message}</div>
-        <button on:click=click_me_baby>"Click me bb"</button>
     }
 }
