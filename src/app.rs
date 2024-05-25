@@ -1,3 +1,4 @@
+use crate::alert::ModalProvider;
 use crate::component::Page;
 use crate::error_template::{AppError, ErrorTemplate};
 use leptos::*;
@@ -28,11 +29,15 @@ pub fn App() -> impl IntoView {
             }
             .into_view()
         }>
-            <main>
-                <Routes>
-                    <Route path="" view=Page />
-                </Routes>
-            </main>
+        <ModalProvider>
+            <body>
+                <main>
+                    <Routes>
+                        <Route path="" view=Page />
+                    </Routes>
+                </main>
+            </body>
+        </ModalProvider>
         </Router>
     }
 }

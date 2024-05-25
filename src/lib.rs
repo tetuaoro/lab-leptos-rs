@@ -1,6 +1,7 @@
 mod adapter;
 mod entity;
 mod api;
+mod alert;
 pub mod component;
 pub mod app;
 pub mod error_template;

@@ -1,10 +1,12 @@
 pub mod counter;
 pub mod home;
 pub mod moffu;
+pub mod modal;
 
 use counter::CounterPage;
 use home::HomePage;
 use moffu::MoffuPage;
+use modal::ModalPage;
 
 use leptos::*;
 
@@ -14,6 +16,7 @@ pub fn Page() -> impl IntoView {
         <HomePage/>
         <CounterPage/>
         <MoffuPage/>
+        <ModalPage/>
 
         <div id="app" style="margin:20px">
             "App"
