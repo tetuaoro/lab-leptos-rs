@@ -1,3 +1,7 @@
+mod user;
+
+pub use user::*;
+
 use crate::adapter::PrintMessage;
 
 #[derive(Default)]

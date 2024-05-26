@@ -101,21 +101,11 @@ fn PortalArray() -> impl IntoView {
 
     view! {
         <div>
-            <For
-                each=move || signals.get().into_iter().enumerate()
-                key=|(index, value)| (index.clone(), value.clone())
-                let:signal
-            >
-                <button on:click=move |_| update_signal(
-                    signal.0,
-                    true,
-                )>{format!("Button open {}", signal.0)}</button>
+            <For each=move || signals.get().into_iter().enumerate() key=|(index, value)| (index.clone(), value.clone()) let:signal>
+                <button on:click=move |_| update_signal(signal.0, true)>{format!("Button open {}", signal.0)}</button>
                 <Show when=move || signal.1>
                     <Portal mount=document().get_element_by_id("app").unwrap()>
-                        <button on:click=move |_| update_signal(
-                            signal.0,
-                            false,
-                        )>{format!("Button close {}", signal.0)}</button>
+                        <button on:click=move |_| update_signal(signal.0, false)>{format!("Button close {}", signal.0)}</button>
                     </Portal>
                 </Show>
 

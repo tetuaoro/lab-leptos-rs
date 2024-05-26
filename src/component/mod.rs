@@ -1,18 +1,21 @@
-pub mod counter;
-pub mod home;
-pub mod moffu;
-pub mod modal;
+mod counter;
+mod home;
+mod moffu;
+mod modal;
+mod user;
 
 use counter::CounterPage;
 use home::HomePage;
 use moffu::MoffuPage;
 use modal::ModalPage;
+use user::UserPage;
 
 use leptos::*;
 
 #[component]
 pub fn Page() -> impl IntoView {
     view! {
+        <UserPage/>
         <HomePage/>
         <CounterPage/>
         <MoffuPage/>
