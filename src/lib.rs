@@ -8,6 +8,7 @@ mod error_template;
 
 #[cfg(feature = "ssr")]
 pub mod fileserv;
+leptos_i18n::load_locales!();
 
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]

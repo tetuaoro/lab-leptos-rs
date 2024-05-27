@@ -25,9 +25,18 @@ cfg-if = "1.0.0"
 surrealdb = "1.5.1"
 serde = { version = "1.0.203", features = ["derive"] }
 once_cell = "1.19.0"
+leptos_i18n = { version = "0.3.3", features = [
+    "track_locale_files",
+    "debug_interpolations",
+] }
 
 [features]
-hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+hydrate = [
+    "leptos/hydrate",
+    "leptos_meta/hydrate",
+    "leptos_router/hydrate",
+    "leptos_i18n/hydrate",
+]
 ssr = [
     "dep:axum",
     "dep:tokio",
@@ -37,6 +46,7 @@ ssr = [
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
+    "leptos_i18n/axum",
     "dep:tracing",
 ]
 
@@ -47,6 +57,10 @@ opt-level = 'z'
 lto = true
 codegen-units = 1
 panic = "abort"
+
+[package.metadata.leptos-i18n]
+default = "en"
+locales = ["en", "fr"]
 
 [package.metadata.leptos]
 # The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name

@@ -1451,6 +1451,7 @@ dependencies = [
  "http 1.1.0",
  "leptos",
  "leptos_axum",
+ "leptos_i18n",
  "leptos_meta",
  "leptos_router",
  "once_cell",
@@ -1918,6 +1919,37 @@ dependencies = [
  "serde",
  "syn 2.0.63",
  "walkdir",
+]
+
+[[package]]
+name = "leptos_i18n"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6f74acc148183951986b9564214f34a2bdb2c14ef45f6db20898839e195a891d"
+dependencies = [
+ "axum",
+ "cfg-if",
+ "http 1.1.0",
+ "leptos",
+ "leptos_axum",
+ "leptos_i18n_macro",
+ "leptos_meta",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
+name = "leptos_i18n_macro"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bf1c733bc79fccdd31c585535ad1d41586a4e7a22b17a5015405542acd828f3c"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "serde",
+ "serde_json",
+ "syn 2.0.63",
+ "toml",
 ]
 
 [[package]]
