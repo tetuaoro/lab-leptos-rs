@@ -1,11 +1,19 @@
 use crate::alert::ModalProvider;
-use crate::component::slug::{ProjectPage, SlugPage};
 use crate::component::Page;
 use crate::error_template::{AppError, ErrorTemplate};
 use crate::i18n::*;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
+
+impl<'a> Into<&'a str> for Locale {
+    fn into(self) -> &'a str {
+        match self {
+            Locale::en => "en",
+            Locale::fr => "fr",
+        }
+    }
+}
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -29,16 +37,59 @@ pub fn App() -> impl IntoView {
                 <body>
                     <main>
                         <Routes>
-                            <Route path="/:lang" view=Outlet>
+                            <Route path="/" view=move || view! { <Redirect path="/en"/> }/>
+                            <Route path="/:lang" view=LangOutlet>
                                 <Route path="" view=Page/>
-                                <Route path=":slug" view=SlugPage/>
-                                <Route path=":slug/:project" view=ProjectPage/>
-                                <Route path=":slug/:project/train" view=Page/>
+                                <Route path="clock" view=Clock/>
                             </Route>
                         </Routes>
                     </main>
                 </body>
             </ModalProvider>
         </Router>
+    }
+}
+
+#[component]
+fn LangOutlet() -> impl IntoView {
+    let params = use_params_map();
+    let get_lang = move || {
+        params.with_untracked(|paramap| {
+            if let Some(lang) = paramap.get("lang").cloned() {
+                if lang.eq("en") {
+                    return Some(Locale::en);
+                }
+                if lang.eq("fr") {
+                    return Some(Locale::fr);
+                }
+            }
+            None
+        })
+    };
+    let lang = get_lang().map(|lang| lang);
+
+    let i18n = use_i18n();
+    if let Some(lang) = lang {
+        i18n.set_locale(lang);
+    }
+
+    view! {
+        <Show when=move || Option::is_some(&lang) fallback=|| view! { <Redirect path="/en"/> }>
+            <Outlet/>
+        </Show>
+    }
+}
+
+#[component]
+fn Clock() -> impl IntoView {
+    let i18n = use_i18n();
+    let lang: &str = i18n.get_locale().into();
+
+    view! {
+        <div>
+            <p>"theres some stuff here that doesnt matter"</p>
+            <p>{t!(i18n, te_huru)}</p>
+            <A href={format!("/{lang}")}>{t!(i18n, fare)}</A>
+        </div>
     }
 }
