@@ -1,5 +1,6 @@
 use crate::adapter::PrintMessage;
 use crate::entity::Message;
+use crate::i18n::*;
 
 use leptos::*;
 use leptos_router::A;
@@ -41,8 +42,10 @@ fn Home<P: PrintMessage + 'static>(data: ReadSignal<P>) -> impl IntoView {
 
     let title_h1 = move || data.with(|d| d.get_message());
 
+    let i18n = use_i18n();
+
     view! {
-        <h1>"Welcome " {title_h1}</h1>
+        <h1>{t!(i18n, maeva)} " " {title_h1}</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
         <A href="clock">"Go to Clock page"</A>
     }
