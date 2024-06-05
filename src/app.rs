@@ -1,5 +1,5 @@
 use crate::alert::ModalProvider;
-use crate::component::Page;
+use crate::component::*;
 use crate::error_template::{AppError, ErrorTemplate};
 use crate::i18n::*;
 use leptos::*;
@@ -45,11 +45,12 @@ pub fn App() -> impl IntoView {
                 <body>
                     <main>
                         <Routes>
-                            <Route path="/" view=move || view! { <Redirect path="/en"/> }/>
-                            <Route path="/:lang" view=LangOutlet>
-                                <Route path="" view=Page/>
-                                <Route path="clock" view=Clock/>
-                            </Route>
+                        <Route path="" view=GridPage/>
+                            // <Route path="/" view=move || view! { <Redirect path="/en"/> }/>
+                            // <Route path="/:lang" view=LangOutlet>
+                            //     <Route path="" view=Page/>
+                            //     <Route path="clock" view=Clock/>
+                            // </Route>
                         </Routes>
                     </main>
                 </body>
@@ -78,6 +79,11 @@ fn LangOutlet() -> impl IntoView {
         i18n.set_locale(lang);
         navigate(new_route.as_str(), Default::default());
     }
+
+    let location = window().location();
+    let _hash = location.hash();
+    let location = use_location();
+    let _hash = move || location.hash.get();
 
     view! {
         <div>

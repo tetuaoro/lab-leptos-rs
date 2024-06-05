@@ -4,27 +4,29 @@ mod modal;
 mod moffu;
 pub mod slug;
 mod user;
+mod grid_template;
 
-use counter::CounterPage;
-use home::HomePage;
-use modal::ModalPage;
-use moffu::MoffuPage;
-// use user::UserPage;
+// use counter::CounterPage;
+// use home::HomePage;
+// use modal::ModalPage;
+// use moffu::MoffuPage;
+pub use grid_template::*;
 
 use leptos::*;
 
 #[component]
 pub fn Page() -> impl IntoView {
     view! {
-        <HomePage/>
-        <CounterPage/>
-        <MoffuPage/>
-        <ModalPage/>
+        <GridPage/>
+        // <HomePage/>
+        // <CounterPage/>
+        // <MoffuPage/>
+        // <ModalPage/>
 
-        <div id="app" style="margin:20px">
-            "App"
-        </div>
-        <div id="app1">"App1"</div>
-        <div id="app2">"App2"</div>
+        // <div id="app" style="margin:20px">
+        //     "App"
+        // </div>
+        // <div id="app1">"App1"</div>
+        // <div id="app2">"App2"</div>
     }
 }

@@ -2,3 +2,34 @@ body {
 	font-family: sans-serif;
 	text-align: center;
 }
+
+#page {
+	display: grid;
+	width: 100%;
+	grid-template-rows: 50px 1fr 30px;
+	grid-template-columns: 150px 1fr;
+}
+
+#page>#header {
+	grid-area: head;
+	background-color: #8ca0ff;
+}
+
+#page>#main-baby {
+	background-color: #f95959;
+}
+
+#page>#nav {
+	grid-area: nav;
+	background-color: #ffa08c;
+}
+
+#page>#main {
+	grid-area: main;
+	background-color: #ffff64;
+}
+
+#page>#footer {
+	grid-area: foot;
+	background-color: #8cffa0;
+}
