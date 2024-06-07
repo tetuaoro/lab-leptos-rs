@@ -1,7 +1,14 @@
+#![allow(unused)]
+
+use std::thread::sleep;
+use std::time::Duration;
+
 use crate::alert::ModalProvider;
+use crate::api::counter;
 use crate::component::*;
 use crate::error_template::{AppError, ErrorTemplate};
 use crate::i18n::*;
+use cfg_if::cfg_if;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
@@ -27,11 +34,55 @@ impl Locale {
     }
 }
 
+#[server]
+async fn pray_me() -> Result<(), ServerFnError> {
+    sleep(Duration::from_secs(5));
+    Ok(())
+}
+
+#[component]
+#[leptos_locatorjs::add_locatorjs_id]
+pub fn Example() -> impl IntoView {
+    let (count, _) = create_signal(2);
+    let ressource = create_resource(|| (), |_| async move { pray_me().await });
+
+    let hello_word = move || {
+        let my_count = count.get();
+        match my_count {
+            2 => view! {<div>"Hello, world!"</div>},
+            _ => view! {<div>"Burn, world!"</div>},
+        }
+    };
+
+    let god____where_r_u = move || {
+        let _son_______i_am_everywhere = ressource.get();
+        "Je suis là, mon fils"
+    };
+
+    view! {
+        <div>
+            <h1>{hello_word}</h1>
+            <Suspense fallback=||view!{ <div>"Loading..."</div> }>
+                <ul>
+                    <li>"I like banana."</li>
+                    <li>{god____where_r_u}</li>
+                </ul>
+            </Suspense>
+        </div>
+    }
+}
+
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
     provide_i18n_context();
+
+    #[cfg(feature = "ssr")]
+    leptos::tracing::trace!("babe?");
+    leptos::leptos_dom::tracing::trace!("babe?");
+    #[cfg(feature = "ssr")]
+    crate::tracing::trace!("babe?");
 
     view! {
         <Title text="Welcome to Leptos"/>
@@ -45,12 +96,11 @@ pub fn App() -> impl IntoView {
                 <body>
                     <main>
                         <Routes>
-                        <Route path="" view=GridPage/>
-                            // <Route path="/" view=move || view! { <Redirect path="/en"/> }/>
-                            // <Route path="/:lang" view=LangOutlet>
-                            //     <Route path="" view=Page/>
-                            //     <Route path="clock" view=Clock/>
-                            // </Route>
+                            <Route path="" view=move || view! { <Redirect path="/en"/> }/>
+                            <Route path=":lang" view=LangOutlet>
+                                <Route path="" view=Example/>
+                                <Route path="clock" view=Clock/>
+                            </Route>
                         </Routes>
                     </main>
                 </body>
@@ -63,7 +113,6 @@ pub fn App() -> impl IntoView {
 fn LangOutlet() -> impl IntoView {
     let params = use_params_map();
     let i18n = use_i18n();
-    let navigate = use_navigate();
 
     let get_lang = params.with_untracked(|paramap| {
         if let Some(value) = paramap.get("lang").cloned() {
@@ -73,17 +122,16 @@ fn LangOutlet() -> impl IntoView {
     });
 
     if let Some(lang) = get_lang {
-        let lang_str: &str = lang.into();
-        let new_route = format!("/{}", lang_str);
-
         i18n.set_locale(lang);
-        navigate(new_route.as_str(), Default::default());
+        cfg_if! {
+            if #[cfg(feature = "hydrate")] {
+                let navigate = use_navigate();
+                let lang_str: &str = lang.into();
+                let new_route = format!("/{}", lang_str);
+                navigate(new_route.as_str(), Default::default());
+            }
+        }
     }
-
-    let location = window().location();
-    let _hash = location.hash();
-    let location = use_location();
-    let _hash = move || location.hash.get();
 
     view! {
         <div>
@@ -92,9 +140,10 @@ fn LangOutlet() -> impl IntoView {
                 <a href="/en">"en"</a>
                 <span>" "</span>
                 <a href="/fr">"fr"</a>
+                < a href="d" a>"ty"</a>
             </fieldset>
         </div>
-        <Show when=move || Option::is_some(&get_lang) fallback=|| view! { <Redirect path="/en"/> }>
+        <Show when=move || Option::is_some(&get_lang) fallback=|| view! { <div></div> }>
             <Outlet/>
         </Show>
     }

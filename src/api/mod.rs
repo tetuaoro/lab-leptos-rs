@@ -29,6 +29,7 @@ cfg_if! { if #[cfg(feature = "ssr")] {
 
 #[server(Counter)]
 pub async fn counter() -> Result<i32, ServerFnError> {
+    leptos::tracing::trace!("babe?");
     let mut rng = rand::thread_rng();
     Ok(rng.gen())
 }

@@ -7,6 +7,9 @@ mod entity;
 mod error_template;
 
 #[cfg(feature = "ssr")]
+pub use tracing;
+
+#[cfg(feature = "ssr")]
 pub mod fileserv;
 leptos_i18n::load_locales!();
 
