@@ -27,7 +27,7 @@ pub fn GridPage() -> impl IntoView {
             <div id="nav">"Navigation"</div>
             <div id="main">"Zone principale"</div>
             <div id="footer">"Pied de page"</div>
-            <For each=move||row.get() key=|k|k.clone() let:msg>
+            <For each=move || row.get() key=|k| k.clone() let:msg>
                 <div id="main-baby">{msg}</div>
             </For>
         </section>

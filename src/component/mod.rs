@@ -16,17 +16,5 @@ use leptos::*;
 
 #[component]
 pub fn Page() -> impl IntoView {
-    view! {
-        <GridPage/>
-        // <HomePage/>
-        // <CounterPage/>
-        // <MoffuPage/>
-        // <ModalPage/>
-
-        // <div id="app" style="margin:20px">
-        //     "App"
-        // </div>
-        // <div id="app1">"App1"</div>
-        // <div id="app2">"App2"</div>
-    }
+    view! { <GridPage/> }
 }

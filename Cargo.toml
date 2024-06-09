@@ -9,7 +9,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 axum = { version = "0.7", optional = true }
 console_error_panic_hook = "0.1"
-leptos = { version = "0.6" }
+leptos = { version = "0.6", features = [] }
 leptos_axum = { version = "0.6", optional = true }
 leptos_meta = { version = "0.6" }
 leptos_router = { version = "0.6" }
@@ -30,7 +30,10 @@ leptos_i18n = { version = "0.3.3", features = [
     "track_locale_files",
     "debug_interpolations",
 ] }
-leptos-locatorjs = { path = "./leptos-locatorjs"}
+leptos-locatorjs = { path = "./leptos-locatorjs" }
+simple_logger = "5.0.0"
+log = "0.4.21"
+web-sys = "0.3.69"
 
 [features]
 hydrate = [

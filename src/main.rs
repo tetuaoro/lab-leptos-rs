@@ -2,10 +2,12 @@
 #[tokio::main]
 async fn main() {
     use axum::Router;
-    use leptos::*;
-    use leptos_axum::{generate_route_list, LeptosRoutes};
     use hexagonal_arch::app::*;
     use hexagonal_arch::fileserv::file_and_error_handler;
+    use leptos::*;
+    use leptos_axum::{generate_route_list, LeptosRoutes};
+    
+    simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
     // Setting get_configuration(None) means we'll be using cargo-leptos's env values
     // For deployment these variables are:
