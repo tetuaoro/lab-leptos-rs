@@ -75,6 +75,7 @@ impl<'a> Into<&'a str> for Locale {
         match self {
             Locale::en => "en",
             Locale::fr => "fr",
+            Locale::ty => "ty",
         }
     }
 }
@@ -86,6 +87,9 @@ impl Locale {
         }
         if value.eq("en") {
             return Some(Self::en);
+        }
+        if value.eq("ty") {
+            return Some(Self::ty);
         }
         None
     }
@@ -142,7 +146,7 @@ fn LangOutlet() -> impl IntoView {
 
     view! {
         <div style="margin-bottom:20px;">
-            <h2>"set language"</h2>
+            <h2>"Set locale language"</h2>
             <div style=style>
                 <button on:click=handle_locale attr:data-lang="en">
                     "en"

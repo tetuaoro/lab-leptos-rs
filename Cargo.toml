@@ -64,7 +64,7 @@ panic = "abort"
 
 [package.metadata.leptos-i18n]
 default = "en"
-locales = ["en", "fr"]
+locales = ["en", "fr", "ty"]
 
 [package.metadata.leptonic]
 # REQUIRED: Leptonic's build-script will copy the Leptonic themes to this directory.
