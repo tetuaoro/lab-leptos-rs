@@ -30,9 +30,7 @@ leptos_i18n = { version = "0.3.3", features = [
     "track_locale_files",
     "debug_interpolations",
 ] }
-leptos-locatorjs = { path = "./leptos-locatorjs" }
-simple_logger = "5.0.0"
-log = "0.4.21"
+leptos-locatorjs = { git = "https://github.com/tetuaoro/leptos-locatorjs.git", rev = "edf3d6d"}
 web-sys = "0.3.69"
 
 [features]
