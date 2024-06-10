@@ -1,13 +1,11 @@
-use crate::alert::ModalProvider;
 use crate::error_template::{AppError, ErrorTemplate};
 use crate::i18n::*;
 
-use ev::{Event, MouseEvent};
-use html::Input;
+use crate::components::*;
+use ev::MouseEvent;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
-use std::ops::Add;
 use web_sys::HtmlButtonElement;
 
 #[component]
@@ -24,22 +22,20 @@ pub fn App() -> impl IntoView {
             outside_errors.insert_with_default_key(AppError::NotFound);
             view! { <ErrorTemplate outside_errors/> }.into_view()
         }>
-            <ModalProvider>
-                <body>
-                    <main>
-                        <Routes>
-                            <Route path="" view=move || view! { <Redirect path="/en"/> }/>
-                            <Route path=":lang" view=LangOutlet>
-                                <Route path="" view=HomePage/>
-                                <Route path="clock" view=Clock/>
-                                <Route path="locatorjs" view=LocatorJsPage/>
-                                <Route path="slice-signal" view=SliceSignalPage/>
-                                <Route path="console-log" view=ConsoleLogPage/>
-                            </Route>
-                        </Routes>
-                    </main>
-                </body>
-            </ModalProvider>
+            <body>
+                <main>
+                    <Routes>
+                        <Route path="" view=move || view! { <Redirect path="/en"/> }/>
+                        <Route path=":lang" view=LangOutlet>
+                            <Route path="" view=HomePage/>
+                            <Route path="clock" view=Clock/>
+                            <Route path="locatorjs" view=LocatorJsPage/>
+                            <Route path="slice-signal" view=SliceSignalPage/>
+                            <Route path="console-log" view=ConsoleLogPage/>
+                        </Route>
+                    </Routes>
+                </main>
+            </body>
         </Router>
     }
 }
@@ -62,122 +58,6 @@ fn HomePage() -> impl IntoView {
             <For each=move || routes key=|r| r.to_owned() let:route>
                 <A href=route>{format!("{route} page")}</A>
             </For>
-        </div>
-    }
-}
-
-#[derive(Debug, Default, Clone)]
-struct SliceSignalStruct {
-    names: Vec<String>,
-    how_many_in_your_life: u8, // u0 for me xD
-}
-
-impl SliceSignalStruct {
-    fn with(surname: String) -> Self {
-        Self {
-            names: vec![surname],
-            how_many_in_your_life: Default::default(),
-        }
-    }
-}
-
-#[component]
-fn SliceSignalPage() -> impl IntoView {
-    let input_ref = create_node_ref::<Input>();
-    let the_first_love = SliceSignalStruct::with("Babe".into());
-    let signal = create_rw_signal(the_first_love);
-
-    let getter = |signal: &SliceSignalStruct| signal.names.clone();
-    let setter = move |state: &mut SliceSignalStruct, new_value| {
-        state.names.push(new_value);
-        let _ = state.how_many_in_your_life.add(1);
-
-        if let Some(elm) = input_ref.get() {
-            let _ = elm.focus();
-        }
-    };
-    let (surnames, set_surnames) = create_slice(signal, getter, setter);
-
-    let on_input = move |evt: Event| {
-        let value = event_target_value(&evt);
-        set_surnames.set(value);
-    };
-
-    view! {
-        <label for="babies">"What's her surname :"</label>
-        <input node_ref=input_ref id="babies" on:input=on_input/>
-        <ul>
-            <For each=move || surnames.get() key=|surname| surname.clone() let:surname>
-                <li>{surname}</li>
-            </For>
-        </ul>
-    }
-}
-
-#[component]
-fn ConsoleLogPage() -> impl IntoView {
-    let initial_title = String::from("Hello, world.");
-    let (title, set_title) = create_signal(initial_title);
-
-    leptos::logging::log!("HomePage component");
-
-    view! {
-        <form method="GET" action="">
-            <label>
-                "I want to read:"
-                <input
-                    type="text"
-                    prop:value=title
-                    on:input=move |evt| {
-                        let input = event_target_value(&evt);
-                        leptos::logging::log!("logging Input: {input}");
-                        set_title.set(input);
-                    }
-                />
-
-            </label>
-            <button>"Create"</button>
-        </form>
-    }
-}
-
-#[server]
-async fn pray_me() -> Result<(), ServerFnError> {
-    use std::thread::sleep;
-    use std::time::Duration;
-
-    sleep(Duration::from_secs(5));
-    Ok(())
-}
-
-#[component]
-#[leptos_locatorjs::add_locatorjs_id]
-pub fn LocatorJsPage() -> impl IntoView {
-    let (count, _) = create_signal(2);
-    let ressource = create_resource(|| (), |_| async move { pray_me().await });
-
-    let hello_word = move || {
-        let my_count = count.get();
-        match my_count {
-            2 => view! { <h2>"Hello, world!"</h2> },
-            _ => view! { <h2>"Burn, world!"</h2> },
-        }
-    };
-
-    let god____where_r_u = move || {
-        let _son_______i_am_everywhere = ressource.get();
-        "Je suis là, mon fils"
-    };
-
-    view! {
-        <div>
-            <div>{hello_word}</div>
-            <Suspense fallback=|| view! { <div>"Loading..."</div> }>
-                <ul>
-                    <li>"I like banana."</li>
-                    <li>{god____where_r_u}</li>
-                </ul>
-            </Suspense>
         </div>
     }
 }
@@ -278,19 +158,5 @@ fn LangOutlet() -> impl IntoView {
             </div>
         </div>
         <Outlet/>
-    }
-}
-
-#[component]
-fn Clock() -> impl IntoView {
-    let i18n = use_i18n();
-    let lang: &str = i18n.get_locale().into();
-
-    view! {
-        <div>
-            <p>"theres some stuff here that doesnt matter"</p>
-            <p>{t!(i18n, te_huru)}</p>
-            <A href=format!("/{lang}")>{t!(i18n, fare)}</A>
-        </div>
     }
 }

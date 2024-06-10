@@ -1,9 +1,5 @@
-mod adapter;
-mod alert;
-mod api;
+mod components;
 pub mod app;
-mod component;
-mod entity;
 mod error_template;
 
 #[cfg(feature = "ssr")]
