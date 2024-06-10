@@ -28,6 +28,9 @@ leptos_i18n = { version = "0.3.3", features = [
 ] }
 leptos-locatorjs = { git = "https://github.com/tetuaoro/leptos-locatorjs.git", rev = "edf3d6d"}
 web-sys = "0.3.69"
+simple_logger = "5.0.0"
+log = "0.4.21"
+leptonic = "0.5.0"
 
 [features]
 hydrate = [
@@ -35,6 +38,7 @@ hydrate = [
     "leptos_meta/hydrate",
     "leptos_router/hydrate",
     "leptos_i18n/hydrate",
+    "leptonic/hydrate"
 ]
 ssr = [
     "dep:axum",
@@ -47,6 +51,7 @@ ssr = [
     "leptos_router/ssr",
     "leptos_i18n/axum",
     "dep:tracing",
+    "leptonic/ssr"
 ]
 
 # Defines a size-optimized profile for the WASM bundle in release mode
@@ -60,6 +65,13 @@ panic = "abort"
 [package.metadata.leptos-i18n]
 default = "en"
 locales = ["en", "fr"]
+
+[package.metadata.leptonic]
+# REQUIRED: Leptonic's build-script will copy the Leptonic themes to this directory.
+style-dir = "style"
+
+# REQUIRED: Leptonic's build-script will copy static JS dependencies to this directory.
+js-dir = "public/js"
 
 [package.metadata.leptos]
 # The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name

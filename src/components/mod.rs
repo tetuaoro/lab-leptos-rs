@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 mod slice_signal;
 mod locator_js;
 mod console_tracing;

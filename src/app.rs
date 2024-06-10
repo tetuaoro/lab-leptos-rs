@@ -1,64 +1,72 @@
+#![allow(unused)]
+
+use crate::components::*;
 use crate::error_template::{AppError, ErrorTemplate};
 use crate::i18n::*;
 
-use crate::components::*;
 use ev::MouseEvent;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
+use std::time::Duration;
 use web_sys::HtmlButtonElement;
 
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
+    // Provides context that manages languages.
     provide_i18n_context();
+
+    let fallback_error = || {
+        let mut outside_errors = Errors::default();
+        outside_errors.insert_with_default_key(AppError::NotFound);
+        view! { <ErrorTemplate outside_errors/> }.into_view()
+    };
 
     view! {
         <Title text="Welcome to Leptos"/>
         <Stylesheet id="leptos" href="/pkg/hexagonal-arch.css"/>
-        <Router fallback=|| {
-            let mut outside_errors = Errors::default();
-            outside_errors.insert_with_default_key(AppError::NotFound);
-            view! { <ErrorTemplate outside_errors/> }.into_view()
-        }>
-            <body>
-                <main>
-                    <Routes>
-                        <Route path="" view=move || view! { <Redirect path="/en"/> }/>
-                        <Route path=":lang" view=LangOutlet>
-                            <Route path="" view=HomePage/>
-                            <Route path="clock" view=Clock/>
-                            <Route path="locatorjs" view=LocatorJsPage/>
-                            <Route path="slice-signal" view=SliceSignalPage/>
-                            <Route path="console-log" view=ConsoleLogPage/>
-                        </Route>
-                    </Routes>
-                </main>
-            </body>
+        <Router fallback=fallback_error>
+            <main>
+                <Routes>
+                    <Route path="/" view=|| view! { <Redirect path="/en"/> }/>
+                    <Route path="/:lang" view=LangOutlet>
+                        <Route path="" view=HomePage/>
+                        <Route path="clock" view=Clock/>
+                        <Route path="locatorjs" view=LocatorJsPage/>
+                        <Route path="slice-signal" view=SliceSignalPage/>
+                        <Route path="console-log" view=ConsoleLogPage/>
+                    </Route>
+                </Routes>
+            </main>
         </Router>
     }
 }
 
 #[component]
 fn HomePage() -> impl IntoView {
-    let style = r"
-        width:100%;
-        height:100%;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        gap: 3px;
-    ";
-
     let routes = ["clock", "locatorjs", "slice-signal", "console-log"];
 
+    use leptonic::prelude::*;
+
     view! {
-        <div style=style>
-            <For each=move || routes key=|r| r.to_owned() let:route>
-                <A href=route>{format!("{route} page")}</A>
-            </For>
-        </div>
+        <Stack orientation=StackOrientation::Horizontal spacing=Size::Em(0.6)>
+            <Skeleton animated=false/>
+            <Skeleton animated=false>
+                <div>
+                    <h3>"Pages"</h3>
+                    <ul style="list-style:none;padding:0;text-align:start;">
+                        <For each=move || routes key=|r| r.to_owned() let:route>
+                            <li>
+                                <A href=route>{route}</A>
+                            </li>
+                        </For>
+                    </ul>
+                </div>
+            </Skeleton>
+            <Skeleton animated=false/>
+        </Stack>
     }
 }
 
@@ -102,8 +110,6 @@ fn LangOutlet() -> impl IntoView {
 
         i18n.set_locale(current_locale);
 
-        let to_locale: &str = current_locale.into();
-
         let pathname = location.pathname.get();
         let pathname = pathname
             .split("/")
@@ -111,7 +117,7 @@ fn LangOutlet() -> impl IntoView {
             .enumerate()
             .map(|(index, s)| {
                 if index == 1 {
-                    return to_locale;
+                    return current_locale.into();
                 }
                 s
             })
@@ -132,11 +138,7 @@ fn LangOutlet() -> impl IntoView {
         }
     };
 
-    let style = r"
-        display: flex;
-        justify-content: center;
-        gap: 3px;
-    ";
+    let style = "display:flex;justify-content:center;gap:3px;";
 
     view! {
         <div style="margin-bottom:20px;">
@@ -148,7 +150,7 @@ fn LangOutlet() -> impl IntoView {
                 <button on:click=handle_locale attr:data-lang="fr">
                     "fr"
                 </button>
-                <button on:click=handle_locale attr:data-lang="d">
+                <button on:click=handle_locale attr:data-lang="ty">
                     "ty"
                 </button>
             </div>

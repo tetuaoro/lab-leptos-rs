@@ -5,7 +5,7 @@ pub fn ConsoleLogPage() -> impl IntoView {
     let initial_title = String::from("Hello, world.");
     let (title, set_title) = create_signal(initial_title);
 
-    leptos::logging::log!("HomePage component");
+    log::info!("HomePage component");
 
     view! {
         <form method="GET" action="">
@@ -16,7 +16,7 @@ pub fn ConsoleLogPage() -> impl IntoView {
                     prop:value=title
                     on:input=move |evt| {
                         let input = event_target_value(&evt);
-                        leptos::logging::log!("logging Input: {input}");
+                        log::info!("logging Input: {input}");
                         set_title.set(input);
                     }
                 />
