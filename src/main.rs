@@ -2,8 +2,8 @@
 #[tokio::main]
 async fn main() {
     use axum::Router;
-    use hexagonal_arch::app::*;
-    use hexagonal_arch::fileserv::file_and_error_handler;
+    use lab_leptos_rs::app::*;
+    use lab_leptos_rs::fileserv::file_and_error_handler;
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
 
