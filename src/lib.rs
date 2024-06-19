@@ -2,6 +2,7 @@ pub mod app;
 mod components;
 mod error_template;
 mod locale;
+mod server_fn;
 
 #[cfg(feature = "ssr")]
 pub mod fileserv;

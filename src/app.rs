@@ -33,6 +33,7 @@ pub fn App() -> impl IntoView {
                         <Route path="locatorjs" view=LocatorJsPage/>
                         <Route path="slice-signal" view=SliceSignalPage/>
                         <Route path="console-log" view=ConsoleLogPage/>
+                        <Route path="ctrl-shift" view=CtrlShiftKey/>
                     </Route>
                 </Routes>
             </main>
@@ -42,7 +43,7 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn HomePage() -> impl IntoView {
-    let routes = ["clock", "locatorjs", "slice-signal", "console-log"];
+    let routes = ["clock", "locatorjs", "slice-signal", "console-log", "ctrl-shift"];
 
     use leptonic::prelude::*;
 
