@@ -35,6 +35,7 @@ pub fn App() -> impl IntoView {
                         <Route path="console-log" view=ConsoleLogPage/>
                         <Route path="ctrl-shift" view=CtrlShiftKey/>
                         <Route path="height-child" view=HeightParent/>
+                        <Route path="suspense" view=SuspensePage/>
                     </Route>
                 </Routes>
             </main>
@@ -51,6 +52,7 @@ fn HomePage() -> impl IntoView {
         "console-log",
         "ctrl-shift",
         "height-child",
+        "suspense"
     ];
 
     use leptonic::prelude::*;

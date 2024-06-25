@@ -22,9 +22,7 @@ fn HeightWrapper(children: Children) -> impl IntoView {
         true
     });
 
-    view! {
-        <div node_ref=div_ref>{children()}</div>
-    }
+    view! { <div node_ref=div_ref>{children()}</div> }
 }
 
 #[component]

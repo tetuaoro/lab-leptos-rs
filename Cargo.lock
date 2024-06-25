@@ -1371,6 +1371,7 @@ dependencies = [
  "leptos_router",
  "lettre",
  "log",
+ "serde",
  "simple_logger",
  "thiserror",
  "tokio",

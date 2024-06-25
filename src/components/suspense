@@ -1,0 +1,46 @@
+use leptos::{
+    component, create_effect, create_resource, create_signal, view, IntoView, SignalGet, Suspense,
+};
+
+use crate::app::{
+    backend::handlers::user_handler::get_user_profile,
+    frontend::services::auth_service::{AuthService, Claims},
+};
+
+#[component]
+pub fn ProfilePage() -> impl IntoView {
+    let (aut_user, set_auth_user) = create_signal(Claims::default());
+
+    create_effect(move |_| {
+        // Get the user from the local storage once the code runs in browser
+        let user = AuthService::get_current_user();
+        // Set the user and trigger re-fetching the resource
+        set_auth_user(user);
+    });
+
+    let user = create_resource(
+        move || aut_user(),
+        move |_| async move {
+            let result = get_user_profile(aut_user().user_id).await;
+            // I can see the log in the browser console!
+            leptos::logging::log!("Profile: {:?}", result); 
+            result
+        },
+    );
+
+    view! {
+        <div class="columns">
+            <div class="column">
+                <h1 class="title is-5">"My Profile"</h1>
+                <h2 class="subtitle is-6">"Your personal data"</h2>
+                <div class="content">
+                    <Suspense fallback=move || {
+                        view! { <p>"Loading data..."</p> }
+                    }>
+                        {move || user.get().map(|user| view! { <p>{user.unwrap().name}</p> })}
+                    </Suspense>
+                </div>
+            </div>
+        </div>
+    }
+}
