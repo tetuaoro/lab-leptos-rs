@@ -5,6 +5,7 @@ mod height_children;
 mod locator_js;
 mod slice_signal;
 mod suspense;
+mod children_ref;
 
 pub(crate) use clock::*;
 pub(crate) use console_tracing::*;
@@ -13,3 +14,4 @@ pub(crate) use height_children::*;
 pub(crate) use locator_js::*;
 pub(crate) use slice_signal::*;
 pub(crate) use suspense::*;
+pub(crate) use children_ref::*;
