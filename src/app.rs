@@ -37,6 +37,7 @@ pub fn App() -> impl IntoView {
                         <Route path="height-child" view=HeightParent/>
                         <Route path="suspense" view=SuspensePage/>
                         <Route path="children-ref" view=ChildrenRefPage/>
+                        <Route path="action-form-search" view=ActionSearchPage/>
                     </Route>
                 </Routes>
             </main>
@@ -55,6 +56,7 @@ fn HomePage() -> impl IntoView {
         "height-child",
         "suspense",
         "children-ref",
+        "action-form-search",
     ];
 
     use leptonic::prelude::*;

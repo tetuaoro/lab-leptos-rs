@@ -59,7 +59,7 @@ pub fn SuspensePage() -> impl IntoView {
                 <h1 class="title is-5">"My Profile"</h1>
                 <h2 class="subtitle is-6">"Your personal data"</h2>
                 <div class="content">
-                    <Suspense fallback=move|| {
+                    <Suspense fallback=move || {
                         view! { <p>"Loading data..."</p> }
                     }>
                         {move || {

@@ -51,7 +51,7 @@ pub fn ChildrenRefPage() -> impl IntoView {
     view! {
         <div id="myDiv" node_ref=div_ref>
             <label>"label"</label>
-            <input type="text" />
+            <input type="text"/>
         </div>
     }
 }
