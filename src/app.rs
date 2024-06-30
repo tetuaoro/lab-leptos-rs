@@ -38,6 +38,7 @@ pub fn App() -> impl IntoView {
                         <Route path="suspense" view=SuspensePage/>
                         <Route path="children-ref" view=ChildrenRefPage/>
                         <Route path="action-form-search" view=ActionSearchPage/>
+                        <Route path="child-table-focus" view=TableFocusPage/>
                     </Route>
                 </Routes>
             </main>
@@ -57,6 +58,7 @@ fn HomePage() -> impl IntoView {
         "suspense",
         "children-ref",
         "action-form-search",
+        "child-table-focus",
     ];
 
     use leptonic::prelude::*;
@@ -68,7 +70,7 @@ fn HomePage() -> impl IntoView {
                 <div>
                     <h3>"Pages"</h3>
                     <ul style="list-style:none;padding:0;text-align:start;">
-                        <For each=move || routes key=|r| r.to_owned() let:route>
+                        <For each=move|| routes key=|r| r.to_owned() let:route>
                             <li>
                                 <A href=route>{route}</A>
                             </li>

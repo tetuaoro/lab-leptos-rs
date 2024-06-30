@@ -26,7 +26,12 @@ pub fn ActionSearchPage() -> impl IntoView {
         <p>"Return value " {return_value}</p>
         <ActionForm action=action_search>
             <label for="you">"Searching for"</label>
-            <input id="you" attr:placeholder="a new girlfriend" name="search_for" on:input=on_input/>
+            <input
+                id="you"
+                attr:placeholder="a new girlfriend"
+                name="search_for"
+                on:input=on_input
+            />
         </ActionForm>
     }
 }

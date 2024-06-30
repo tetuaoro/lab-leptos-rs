@@ -7,6 +7,7 @@ mod slice_signal;
 mod suspense;
 mod children_ref;
 mod action_form;
+mod child_table_focus;
 
 pub(crate) use clock::*;
 pub(crate) use console_tracing::*;
@@ -17,3 +18,4 @@ pub(crate) use slice_signal::*;
 pub(crate) use suspense::*;
 pub(crate) use children_ref::*;
 pub(crate) use action_form::*;
+pub(crate) use child_table_focus::*;
